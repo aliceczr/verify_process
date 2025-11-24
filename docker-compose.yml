@@ -4,7 +4,7 @@ services:
   api:
     build:
       context: .
-      dockerfile: ml/Dockerfile
+      dockerfile: Dockerfile.api
     image: verificador_api:latest
     ports:
       - '8000:8000'
@@ -19,7 +19,7 @@ services:
   ui:
     build:
       context: .
-      dockerfile: front/Dockerfile
+      dockerfile: Dockerfile.ui
     image: verificador_ui:latest
     ports:
       - '8501:8501'
