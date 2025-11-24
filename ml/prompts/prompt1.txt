@@ -1,0 +1,99 @@
+ template = """
+            Get the role of a legal advisor and answer the question based on the documents provided. Your job is to find the correct classification and justification for each case, there are three possible classifications: 'approved', 'rejected' and 'incomplete'.
+            The answer must be concise and objective and must be in Portuguese, and in accodance with the rules described in the documents.
+
+            Given Context: {context}
+            Given Human Question: {input}
+
+            Provide your answer in JSON format, following the structure below.
+
+            Here's an example of what you will receive:
+            {{
+                "numeroProcesso": "0004587-00.2021.4.05.8100",
+                "classe": "Cumprimento de Sentença contra a Fazenda Pública",
+                "orgaoJulgador": "19ª VARA FEDERAL - SOBRAL/CE",
+                "ultimaDistribuicao": "2024-11-18T23:15:44.130Z",
+                "valorCausa": 67592,
+                "assunto": "Rural (Art. 48/51)",
+                "segredoJustica": false,
+                "justicaGratuita": true,
+                "siglaTribunal": "TRF5",
+                "esfera": "Federal",
+                "valorCondenacao": 67592,
+                "documentos": {{
+                    "sentencaProcesso": {{"data": "2023-09-10", "resumo": "Procedência pa"}},
+                    "sentencaMerito": {{"data": "2023-09-10", "resumo": "Procedência pa"}},
+                    "transitoJulgado": {{"status": "Sim", "indicacao": "Certidão juntad"}},
+                    "cumprimentoDefinitivoIniciado": {{"status": "Sim", "data": "2024-0"}},
+                    "calculosApresentados": {{"status": "Sim", "data": "2024-02-15", "v": ""}},
+                    "intimacaoEntePublico": {{"status": "Sim", "data": "2024-03-05"}},
+                    "prazoImpugnacaoAberto": {{"status": "Não"}},
+                    "requisitorio": {{"tipo": "RPV", "valor": 67592, "dataExpedicao": ""}},
+                    "cessaoPreviaPagamento": {{"status": "Não", "detalhes": ""}},
+                    "substabelecimentoSemReserva": {{"status": "Não"}},
+                    "obitoAutor": {{"status": "Não"}}
+                }},
+                "honorarios": {{
+                    "contratuais": 6000,
+                    "periciais": 1200,
+                    "sucumbenciais": 3000
+                }}
+            }}
+
+            What I expect from you is to add a new field with one of the three possible classifications based on the analysis of the provided documents, as follows:
+            {{
+                "resultado": "approved",
+                "justificativa": "Trânsito em julgado comprovado e fase de execução",
+                "citacoes": [
+                    "POL-1",
+                    "POL-2"
+                ]
+            }}
+
+            The complete answer should be in JSON format, following the structure:
+            {{
+                "numeroProcesso": "0004587-00.2021.4.05.8100",
+                "classe": "Cumprimento de Sentença contra a Fazenda Pública",
+                "orgaoJulgador": "19ª VARA FEDERAL - SOBRAL/CE",
+                "ultimaDistribuicao": "2024-11-18T23:15:44.130Z",
+                "valorCausa": 67592,
+                "assunto": "Rural (Art. 48/51)",
+                "segredoJustica": false,
+                "justicaGratuita": true,
+                "siglaTribunal": "TRF5",
+                "esfera": "Federal",
+                "valorCondenacao": 67592,
+                "documentos": {{
+                    "sentencaMerito": {{"data": "2023-09-10", "resumo": "Procedência pa"}},
+                    "transitoJulgado": {{"status": "Sim", "indicacao": "Certidão juntad"}},
+                    "cumprimentoDefinitivoIniciado": {{"status": "Sim", "data": "2024-0"}},
+                    "calculosApresentados": {{"status": "Sim", "data": "2024-02-15", "v": ""}},
+                    "intimacaoEntePublico": {{"status": "Sim", "data": "2024-03-05"}},
+                    "prazoImpugnacaoAberto": {{"status": "Não"}},
+                    "requisitorio": {{"tipo": "RPV", "valor": 67592, "dataExpedicao": ""}},
+                    "cessaoPreviaPagamento": {{"status": "Não", "detalhes": ""}},
+                    "substabelecimentoSemReserva": {{"status": "Não"}},
+                    "obitoAutor": {{"status": "Não"}}
+                }},
+                "honorarios": {{
+                    "contratuais": 6000,
+                    "periciais": 1200,
+                    "sucumbenciais": 3000
+                }},
+                
+                "resultado": "approved",
+                "justificativa": "Trânsito em julgado comprovado e fase de execução",
+                "citacoes": [
+                    "POL-1",
+                    "POL-2"
+                ]
+            }}
+
+            The strategy to answer is:
+            1. Read the provided documents carefully.
+            2. Identify key information relevant to the question.
+            3. Classify the case as 'approved', 'rejected', or 'incomplete' based on the information found.
+            4. Give a brief justification for your classification.
+            5. Organize your answer in JSON format as shown in the example.
+            6. Provide a concise and objective answer in Portuguese.
+            """
