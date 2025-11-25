@@ -9,7 +9,7 @@ services:
     ports:
       - '8000:8000'
     environment:
-      # configure these in a real .env or in your deployment platform
+  
       - GROQ_API_KEY=${GROQ_API_KEY:-}
       - LANGSMITH_API_KEY=${LANGSMITH_API_KEY:-}
       - CORS_ALLOW_ORIGINS=${CORS_ALLOW_ORIGINS:-http://localhost:8501}
