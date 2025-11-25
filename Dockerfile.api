@@ -2,6 +2,7 @@ FROM python:3.11-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/app
 
 WORKDIR /app
 
@@ -18,8 +19,8 @@ RUN pip install -r /app/requirements.txt uvicorn[standard] python-dotenv || true
 COPY ml /app
 
 # generate OpenAPI spec at build time (best-effort)
-RUN PYTHONPATH=/app python generate_openapi.py || true
+RUN python generate_openapi.py || true
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "PYTHONPATH=/app uvicorn main:app --host 0.0.0.0 --port 8000"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
