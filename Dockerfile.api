@@ -7,8 +7,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends build-essential
 COPY ml/requirements.txt /app/requirements.txt
 RUN pip install --upgrade pip
 RUN pip install python-dotenv uvicorn[standard]
+RUN pip install torch --index-url https://download.pytorch.org/whl/cpu
 RUN pip install -r /app/requirements.txt
 COPY ml /app
-RUN python generate_openapi.py || true
+RUN python generate_openapi.py
 EXPOSE 8000
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
