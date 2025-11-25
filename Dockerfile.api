@@ -6,7 +6,8 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y --no-install-recommends build-essential git curl && rm -rf /var/lib/apt/lists/*
 COPY ml/requirements.txt /app/requirements.txt
 RUN pip install --upgrade pip
-RUN pip install -r /app/requirements.txt uvicorn[standard] python-dotenv
+RUN pip install python-dotenv uvicorn[standard]
+RUN pip install -r /app/requirements.txt
 COPY ml /app
 RUN python generate_openapi.py || true
 EXPOSE 8000
