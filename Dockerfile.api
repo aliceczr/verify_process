@@ -1,26 +1,13 @@
 FROM python:3.11-slim
-
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONPATH=/app
-
 WORKDIR /app
-
-# install build deps (faiss and some libs may need build tools)
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential git curl && rm -rf /var/lib/apt/lists/*
-
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential git curl && rm -rf /var/lib/apt/lists/*
 COPY ml/requirements.txt /app/requirements.txt
-
 RUN pip install --upgrade pip
-RUN pip install -r /app/requirements.txt uvicorn[standard] python-dotenv || true
-
-# copy app code
+RUN pip install -r /app/requirements.txt uvicorn[standard] python-dotenv
 COPY ml /app
-
-# generate OpenAPI spec at build time (best-effort)
 RUN python generate_openapi.py || true
-
 EXPOSE 8000
-
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
